@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — Rosario Dairy</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="login-body">
+
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-icon login-brand-icon">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="20" cy="28" rx="14" ry="8" fill="#E8F4FD" opacity="0.3"/>
+            <path d="M8 20 Q20 6 32 20 Q32 32 20 34 Q8 32 8 20Z" fill="white" opacity="0.9"/>
+            <path d="M14 18 Q20 12 26 18" stroke="#3A7CA5" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <circle cx="20" cy="22" r="3" fill="#3A7CA5" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name login-brand-name">Rosario Dairy</span>
+          <span class="login-brand-tagline">Farm Fresh · Est. 1998</span>
+        </div>
+      </div>
+
+      <h1 class="login-title">Sign in to your account</h1>
+      <p class="login-subtitle">POS & Inventory System</p>
+
+      {% if error %}
+      <div class="login-error">⚠ {{ error }}</div>
+      {% endif %}
+
+      <form class="login-form" method="POST" action="/login">
+        <div class="form-group full">
+          <label>Username</label>
+          <input type="text" name="username" id="loginUsername" placeholder="Enter your username" autocomplete="username" autofocus required />
+        </div>
+        <div class="form-group full">
+          <label>Password</label>
+          <input type="password" name="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="btn-primary login-submit">Sign In</button>
+      </form>
+
+      <div class="login-hint">
+        <span>Demo accounts:</span>
+        <code>admin / admin123</code> <span class="login-hint-sep">·</span> <code>staff / staff123</code>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

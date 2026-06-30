@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rosario Dairy — Integrated POS & Inventory System</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ─── Sidebar ─────────────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="20" cy="28" rx="14" ry="8" fill="#E8F4FD" opacity="0.3"/>
+        <path d="M8 20 Q20 6 32 20 Q32 32 20 34 Q8 32 8 20Z" fill="white" opacity="0.9"/>
+        <path d="M14 18 Q20 12 26 18" stroke="#3A7CA5" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <circle cx="20" cy="22" r="3" fill="#3A7CA5" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <span class="brand-name">Rosario Dairy</span>
+      <span class="brand-tagline">Farm Fresh · Est. 1998</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <span class="nav-label">Main</span>
+    <a href="#" class="nav-item active" data-view="dashboard" data-roles="admin">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zm6-4a1.5 1.5 0 113 0v10a1.5 1.5 0 01-3 0V6.5zm7-4a1.5 1.5 0 113 0v14a1.5 1.5 0 01-3 0V2.5z"/></svg>
+      Dashboard
+    </a>
+    <a href="#" class="nav-item" data-view="pos" data-roles="admin,staff">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z"/></svg>
+      Point of Sale
+    </a>
+    <a href="#" class="nav-item" data-view="inventory" data-roles="admin,staff">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z"/><path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+      Inventory
+    </a>
+    <a href="#" class="nav-item" data-view="analytics" data-roles="admin">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clip-rule="evenodd"/></svg>
+      Analytics
+    </a>
+    <span class="nav-label" data-roles="admin">Management</span>
+    <a href="#" class="nav-item" data-view="customers" data-roles="admin">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
+      Customers
+    </a>
+    <a href="#" class="nav-item" data-view="reports" data-roles="admin,staff">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z" clip-rule="evenodd"/></svg>
+      Sales History
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-info-row">
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar">--</div>
+        <div>
+          <div class="user-name" id="userName">—</div>
+          <span class="role-badge" id="userRoleBadge">—</span>
+        </div>
+      </div>
+      <button class="btn-logout" id="logoutBtn" title="Log out" onclick="logout()">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 011-1h6a1 1 0 110 2H5v12h5a1 1 0 110 2H4a1 1 0 01-1-1V3zm10.293 3.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L14.586 11H8a1 1 0 110-2h6.586l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ─── Main Content ──────────────────────────────────────────── -->
+<main class="main-content">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="menu-toggle" id="menuToggle">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm1 5a1 1 0 100 2h12a1 1 0 100-2H4z" clip-rule="evenodd"/></svg>
+    </button>
+    <div class="topbar-title" id="pageTitle">Dashboard</div>
+    <div class="topbar-actions">
+      <div class="clock" id="clock"></div>
+      <button class="btn-icon" title="Notifications" onclick="showNotifications()">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a2 2 0 01-2-2h4a2 2 0 01-2 2z"/></svg>
+        <span class="notif-badge" id="notifBadge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── DASHBOARD ────────────────────────────────────────────── -->
+  <section class="view active" id="view-dashboard">
+    <div class="section-header">
+      <h1 class="section-title">Dashboard <span class="subtitle">Overview</span></h1>
+      <p class="section-desc">Today's snapshot — <span id="todayDate"></span></p>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid" id="kpiGrid">
+      <div class="kpi-card kpi-primary">
+        <div class="kpi-icon">₱</div>
+        <div class="kpi-data">
+          <div class="kpi-value" id="kpiTodayRev">—</div>
+          <div class="kpi-label">Today's Revenue</div>
+          <div class="kpi-change" id="kpiRevChange">—</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">📦</div>
+        <div class="kpi-data">
+          <div class="kpi-value" id="kpiMonthlyRev">—</div>
+          <div class="kpi-label">Monthly Revenue</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">🛒</div>
+        <div class="kpi-data">
+          <div class="kpi-value" id="kpiTransactions">—</div>
+          <div class="kpi-label">Total Transactions</div>
+        </div>
+      </div>
+      <div class="kpi-card" id="kpiLowStockCard">
+        <div class="kpi-icon">⚠️</div>
+        <div class="kpi-data">
+          <div class="kpi-value" id="kpiLowStock">—</div>
+          <div class="kpi-label">Low Stock Alerts</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mini Charts Row -->
+    <div class="charts-row">
+      <div class="chart-card chart-wide">
+        <div class="chart-header">
+          <h3>Revenue — Last 14 Days</h3>
+        </div>
+        <canvas id="chartRevenue" height="100"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Sales by Category</h3>
+        </div>
+        <canvas id="chartCategories" height="100"></canvas>
+      </div>
+    </div>
+
+    <!-- Top Products & Low Stock -->
+    <div class="bottom-row">
+      <div class="table-card">
+        <div class="card-header"><h3>Top Selling Products</h3></div>
+        <table class="data-table" id="topProductsTable">
+          <thead><tr><th>Product</th><th>Units Sold</th><th>Revenue</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="table-card">
+        <div class="card-header">
+          <h3>⚠️ Low Stock Items</h3>
+          <button class="btn-sm btn-secondary" onclick="switchView('inventory')">Manage</button>
+        </div>
+        <table class="data-table" id="lowStockTable">
+          <thead><tr><th>Product</th><th>Stock</th><th>Min</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── POS ──────────────────────────────────────────────────── -->
+  <section class="view" id="view-pos">
+    <div class="section-header">
+      <h1 class="section-title">Point of Sale <span class="subtitle">Terminal</span></h1>
+    </div>
+    <div class="pos-layout">
+      <!-- Product Grid -->
+      <div class="pos-products">
+        <div class="pos-search-bar">
+          <input type="text" id="posSearch" placeholder="Search product or scan barcode…" oninput="filterPosProducts()" />
+          <select id="posCategoryFilter" onchange="filterPosProducts()">
+            <option value="">All Categories</option>
+            <option>Milk</option><option>Cream</option><option>Butter</option>
+            <option>Cheese</option><option>Yogurt</option><option>Flavoured Milk</option>
+          </select>
+        </div>
+        <div class="product-grid" id="posProductGrid"></div>
+      </div>
+      <!-- Cart -->
+      <div class="pos-cart">
+        <div class="cart-header">
+          <h3>Current Order</h3>
+          <div class="cart-customer">
+            <label>Customer</label>
+            <select id="cartCustomer">
+              <option value="1">Walk-in Customer</option>
+            </select>
+          </div>
+        </div>
+        <div class="cart-items" id="cartItems">
+          <div class="cart-empty">No items yet — select a product</div>
+        </div>
+        <div class="cart-summary">
+          <div class="summary-row"><span>Subtotal</span><span id="cartSubtotal">₱0.00</span></div>
+          <div class="summary-row">
+            <span>Discount</span>
+            <span><input type="number" id="cartDiscount" min="0" max="100" value="0" onchange="updateCartTotal()" /> %</span>
+          </div>
+          <div class="summary-row"><span>Tax (12% VAT)</span><span id="cartTax">₱0.00</span></div>
+          <div class="summary-row summary-total"><span>Total</span><span id="cartTotal">₱0.00</span></div>
+          <div class="payment-row">
+            <label>Payment</label>
+            <div class="payment-methods">
+              <button class="pay-btn active" data-method="Cash" onclick="selectPayment(this)">Cash</button>
+            </div>
+          </div>
+          <div class="cash-input-row" id="cashInputRow">
+            <label>Cash Received</label>
+            <input type="number" id="cashReceived" placeholder="0.00" oninput="calcChange()" />
+            <div class="change-display" id="changeDisplay"></div>
+          </div>
+          <button class="btn-checkout" id="btnCheckout" onclick="processCheckout()">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            Complete Sale
+          </button>
+          <button class="btn-clear" onclick="clearCart()">Clear Order</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INVENTORY ─────────────────────────────────────────────── -->
+  <section class="view" id="view-inventory">
+    <div class="section-header">
+      <h1 class="section-title">Inventory <span class="subtitle">Management</span></h1>
+      <button class="btn-primary admin-only" id="btnAddProduct" onclick="openProductModal()">+ Add Product</button>
+    </div>
+    <div class="filter-row">
+      <input type="text" id="invSearch" placeholder="Search products…" oninput="loadInventory()" />
+      <select id="invCategory" onchange="loadInventory()">
+        <option value="">All Categories</option>
+        <option>Milk</option><option>Cream</option><option>Butter</option>
+        <option>Cheese</option><option>Yogurt</option><option>Ice Cream</option>
+      </select>
+    </div>
+    <div class="table-card full-width">
+      <table class="data-table inventory-table" id="inventoryTable">
+        <thead>
+          <tr>
+            <th>Barcode</th><th>Product</th><th>Category</th>
+            <th>Price</th><th>Cost</th><th>Stock</th><th>Unit</th>
+            <th>Status</th><th class="admin-only">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="inventoryTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── ANALYTICS ─────────────────────────────────────────────── -->
+  <section class="view" id="view-analytics">
+    <div class="section-header">
+      <h1 class="section-title">Analytics <span class="subtitle">&amp; Predictions</span></h1>
+    </div>
+
+    <div class="analytics-grid">
+      <!-- Revenue Trend -->
+      <div class="chart-card analytics-wide">
+        <div class="chart-header">
+          <h3>30-Day Revenue Trend</h3>
+          <select id="revenueDaysFilter" onchange="loadAnalytics()">
+            <option value="14">14 Days</option>
+            <option value="30" selected>30 Days</option>
+            <option value="60">60 Days</option>
+            <option value="90">90 Days</option>
+          </select>
+        </div>
+        <canvas id="chartRevenueAnalytics" height="90"></canvas>
+      </div>
+
+      <!-- Prediction -->
+      <div class="chart-card analytics-wide">
+        <div class="chart-header">
+          <h3>🔮 7-Day Revenue Forecast <span class="badge-ai">AI Powered</span></h3>
+        </div>
+        <canvas id="chartPredictions" height="90"></canvas>
+        <div class="prediction-note">Based on linear regression with seasonality adjustments</div>
+      </div>
+
+      <!-- Category Breakdown -->
+      <div class="chart-card">
+        <div class="chart-header"><h3>Revenue by Category</h3></div>
+        <canvas id="chartCategoryAnalytics" height="130"></canvas>
+      </div>
+
+      <!-- Top Products Bar -->
+      <div class="chart-card">
+        <div class="chart-header"><h3>Top 8 Products by Units Sold</h3></div>
+        <canvas id="chartTopProducts" height="130"></canvas>
+      </div>
+
+      <!-- Inventory Logs -->
+      <div class="chart-card analytics-wide">
+        <div class="chart-header"><h3>Recent Inventory Activity</h3></div>
+        <table class="data-table" id="inventoryLogTable">
+          <thead><tr><th>Date/Time</th><th>Product</th><th>Action</th><th>Qty Change</th><th>New Stock</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CUSTOMERS ─────────────────────────────────────────────── -->
+  <section class="view" id="view-customers">
+    <div class="section-header">
+      <h1 class="section-title">Customers <span class="subtitle">Loyalty Program</span></h1>
+      <button class="btn-primary" onclick="openCustomerModal()">+ Add Customer</button>
+    </div>
+    <div class="table-card full-width">
+      <table class="data-table" id="customersTable">
+        <thead>
+          <tr><th>#</th><th>Name</th><th>Phone</th><th>Email</th><th>Points</th><th>Total Spent</th><th>Tier</th></tr>
+        </thead>
+        <tbody id="customersTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── REPORTS ────────────────────────────────────────────────── -->
+  <section class="view" id="view-reports">
+    <div class="section-header">
+      <h1 class="section-title">Reports <span class="subtitle">Transaction Log</span></h1>
+    </div>
+    <div class="table-card full-width">
+      <table class="data-table" id="reportsTable">
+        <thead>
+          <tr><th>Txn #</th><th>Date</th><th>Customer</th><th>Items</th><th>Subtotal</th><th>Tax</th><th>Total</th><th>Payment</th></tr>
+        </thead>
+        <tbody id="reportsTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<!-- ─── Modals ────────────────────────────────────────────────────── -->
+
+<!-- Product Modal -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="productModalTitle">Add Product</h2>
+      <button class="modal-close" onclick="closeModal('productModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="productId" />
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Product Name</label>
+          <input type="text" id="productName" placeholder="e.g. Fresh Whole Milk" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="productCategory">
+            <option>Milk</option><option>Cream</option><option>Butter</option>
+            <option>Cheese</option><option>Yogurt</option><option>Ice Cream</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Unit</label>
+          <input type="text" id="productUnit" placeholder="liter, 250g, pint…" />
+        </div>
+        <div class="form-group">
+          <label>Selling Price (₱)</label>
+          <input type="number" id="productPrice" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label>Cost Price (₱)</label>
+          <input type="number" id="productCost" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label>Stock Quantity</label>
+          <input type="number" id="productStock" />
+        </div>
+        <div class="form-group">
+          <label>Min Stock Level</label>
+          <input type="number" id="productMinStock" value="10" />
+        </div>
+        <div class="form-group">
+          <label>Barcode</label>
+          <input type="text" id="productBarcode" placeholder="RD001" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('productModal')">Cancel</button>
+      <button class="btn-primary" onclick="saveProduct()">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- Restock Modal -->
+<div class="modal-overlay" id="restockModal">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <h2>Restock: <span id="restockProductName"></span></h2>
+      <button class="modal-close" onclick="closeModal('restockModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="restockProductId" />
+      <div class="form-group">
+        <label>Quantity to Add</label>
+        <input type="number" id="restockQty" min="1" value="10" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('restockModal')">Cancel</button>
+      <button class="btn-primary" onclick="confirmRestock()">Add Stock</button>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Modal -->
+<div class="modal-overlay" id="customerModal">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <h2>Add Customer</h2>
+      <button class="modal-close" onclick="closeModal('customerModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>Full Name</label><input type="text" id="custName" /></div>
+      <div class="form-group"><label>Phone</label><input type="text" id="custPhone" /></div>
+      <div class="form-group"><label>Email</label><input type="email" id="custEmail" /></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('customerModal')">Cancel</button>
+      <button class="btn-primary" onclick="saveCustomer()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Receipt Modal -->
+<div class="modal-overlay" id="receiptModal">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <h2>Receipt</h2>
+      <button class="modal-close" onclick="closeModal('receiptModal')">✕</button>
+    </div>
+    <div class="modal-body" id="receiptContent"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('receiptModal')">Close</button>
+      <button class="btn-primary" onclick="printReceipt()">🖨 Print</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+  window.CURRENT_USER = {
+    name: {{ (user.name if user else "User") | tojson }},
+    role: {{ (user.role if user else "staff") | tojson }},
+    title: {{ (user.title if user else "") | tojson }}
+  };
+</script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
